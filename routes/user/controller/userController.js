@@ -60,13 +60,13 @@ async function login (req, res) {
                         process.env.JWT_SECRET,
                         { expiresIn: "24h" }
                     );
-
+                    // console.log(foundEmail)
                     res.json({ message: "SUCCESS", payload: jwtToken });
                 }
             
             }
         } else {
-            let passwordComparer = await bcrypt.compare (password, foundUser.password);
+            let passwordComparer = await bcrypt.compare(password, foundUser.password);
         
             if (!passwordComparer) {
                 return res.status(500).json({
@@ -82,6 +82,7 @@ async function login (req, res) {
                     process.env.JWT_SECRET,
                     { expiresIn: "24h" }
                 );
+                // console.log(foundUser)
                 res.json({ message: "SUCCESS", payload: jwtToke })
             }
         }

@@ -6,9 +6,12 @@ const todoSchema = new mongoose.Schema (
             type: String
         },
         done: {
-            type: boolean
+            type: Boolean
         },
-        user: [{ type: mongoose.Schema.ObjectId, ref: "user" }],
+        user: { 
+            type: mongoose.Schema.ObjectId, 
+            ref: "todo" 
+        }
     },
     {
         timestamps: true
