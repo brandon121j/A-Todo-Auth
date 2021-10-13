@@ -93,7 +93,37 @@ async function login (req, res) {
     }
 }
 
+async function updateUser (req, res) {
+    try {
+        const { password } = req.body;
+
+        const decodedData = res.locals.decodedData;
+
+        let salt = await bcrypt.genSalt(10);
+        let hashedPassword = await bcrypt.hash(password, salt);
+
+        req.body.password = hashedPassword;
+
+        let updatedUser = await User.findByIdAndUpdate(
+            { email: decodedData.email },
+            req.body,
+            { new: true }
+        );
+
+        res.json({
+            message: "SUCCESS",
+            payload: updatedUser
+        })
+    } catch(error) {
+        res.status(500).json({
+            message: "ERROR",
+            error: error.message
+        });
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    updateUser
 }
