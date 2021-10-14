@@ -123,8 +123,26 @@ async function updateUser (req, res) {
     }
 }
 
+async function getUserInfo(req, res) {
+    try {
+        const decodedData = res.locals.decodedData;
+        const foundUser = await User.findOne({ email: decodedData.email })
+            .populate("todos")
+        
+        res.json({ message: "SUCCESS", payload: foundUser })
+    } catch(error) {
+        res
+            .status(500)
+            .json({ 
+                message: "ERROR", 
+                error: error.message 
+            });
+    }
+}
+
 module.exports = {
     register,
     login,
-    updateUser
+    updateUser,
+    getUserInfo
 }
